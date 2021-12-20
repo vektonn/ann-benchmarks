@@ -72,3 +72,12 @@ jobs:
       env:
         LIBRARY: ${{ matrix.library }}
         DATASET: ${{ matrix.dataset }}
+
+    - name: Store results as artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: plots-${{ matrix.library }}
+        path: |
+          plot*.png
+        if-no-files-found: ignore
+        retention-days: 10
