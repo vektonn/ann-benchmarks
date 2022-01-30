@@ -1,0 +1,24 @@
+FROM ann-benchmarks
+
+RUN pip3 install vektonn==0.7.1
+
+# Install docker-compose
+RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
+    chmod +x /usr/local/bin/docker-compose
+
+# Install Vektonn helper scripts
+ARG THIS_REPO_HOST_DIR
+COPY install/vektonn/ /vektonn/
+# for 'Docker-out-of-Docker' setup
+RUN sed -i "s|__VEKTONN_SETUP_DIR_ON_HOST__|$THIS_REPO_HOST_DIR/install/vektonn|" /vektonn/docker-compose.yaml
+
+# Custom entrypoint that also starts Vektonn
+RUN echo '#!/bin/bash' >> entrypoint.sh
+RUN echo 'set -e' >> entrypoint.sh
+RUN echo 'python3 --version' >> entrypoint.sh
+RUN echo 'pip3 list | grep vektonn' >> entrypoint.sh
+RUN echo 'docker-compose --version' >> entrypoint.sh
+RUN echo 'printenv' >> entrypoint.sh
+RUN echo '/vektonn/run-vektonn.sh' >> entrypoint.sh
+RUN echo 'python3 -u run_algorithm.py "$@"' >> entrypoint.sh
+ENTRYPOINT ["/bin/bash", "/home/app/entrypoint.sh"]

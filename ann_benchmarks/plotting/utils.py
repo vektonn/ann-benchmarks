@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 
+import csv
 import itertools
 import numpy
 from ann_benchmarks.plotting.metrics import all_metrics as metrics
@@ -37,30 +38,32 @@ def create_pointset(data, xn, yn):
     return xs, ys, ls, axs, ays, als
 
 
-def compute_metrics(true_nn_distances, res, metric_1, metric_2,
-                    recompute=False):
+def compute_metrics(output, true_nn_distances, res, metric_1, metric_2, recompute=False):
     all_results = {}
-    for i, (properties, run) in enumerate(res):
-        algo = properties['algo']
-        algo_name = properties['name']
-        # cache distances to avoid access to hdf5 file
-        run_distances = numpy.array(run['distances'])
-        if recompute and 'metrics' in run:
-            del run['metrics']
-        metrics_cache = get_or_create_metrics(run)
+    with open(f'{output}.csv', mode='w') as metrics_file:
+        metrics_writer = csv.writer(metrics_file, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-        metric_1_value = metrics[metric_1]['function'](
-            true_nn_distances,
-            run_distances, metrics_cache, properties)
-        metric_2_value = metrics[metric_2]['function'](
-            true_nn_distances,
-            run_distances, metrics_cache, properties)
+        for i, (properties, run) in enumerate(res):
+            algo = properties['algo']
+            algo_name = properties['name']
+            # cache distances to avoid access to hdf5 file
+            run_distances = numpy.array(run['distances'])
+            if recompute and 'metrics' in run:
+                del run['metrics']
+            metrics_cache = get_or_create_metrics(run)
 
-        print('%3d: %80s %12.3f %12.3f' %
-              (i, algo_name, metric_1_value, metric_2_value))
+            metric_1_value = metrics[metric_1]['function'](
+                true_nn_distances,
+                run_distances, metrics_cache, properties)
+            metric_2_value = metrics[metric_2]['function'](
+                true_nn_distances,
+                run_distances, metrics_cache, properties)
 
-        all_results.setdefault(algo, []).append(
-            (algo, algo_name, metric_1_value, metric_2_value))
+            print(f'{i:3d}: {algo_name:>80} {metric_1_value:12.3f} {metric_2_value:12.0f}')
+            metrics_writer.writerow([algo_name, f'{metric_1_value:12.3f}', f'{metric_2_value:12.0f}'])
+
+            all_results.setdefault(algo, []).append(
+                (algo, algo_name, metric_1_value, metric_2_value))
 
     return all_results
 

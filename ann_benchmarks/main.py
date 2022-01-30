@@ -1,7 +1,9 @@
 from __future__ import absolute_import
 import argparse
+import distutils
 import logging
 import logging.config
+import subprocess
 
 import docker
 import multiprocessing.pool
@@ -10,7 +12,8 @@ import psutil
 import random
 import shutil
 import sys
-import traceback
+
+from distutils import dir_util
 
 from ann_benchmarks.datasets import get_dataset, DATASETS
 from ann_benchmarks.constants import INDEX_DIR
@@ -33,12 +36,42 @@ def positive_int(s):
     return i
 
 
+def prepare_vektonn_config(definition):
+    distutils.dir_util.copy_tree('install/vektonn/config-template', 'install/vektonn/config')
+
+    dimension = definition.arguments[1]
+    replace_in_file(
+        filename=f'install/vektonn/config/data-sources/ann-benchmark.source/1.0.yaml',
+        pattern='__VEKTONN_VECTOR_DIMENSION__',
+        value=dimension)
+
+    vektonn_index_params = ''
+    if definition.algorithm == 'vektonn-hnsw':
+        hnsw_params = definition.arguments[2]
+        vektonn_index_params = f'  params:\\n\
+    Hnsw_M: {hnsw_params["M"]}\\n\
+    Hnsw_EfConstruction: {hnsw_params["efConstruction"]}\\n\
+    Hnsw_EfSearch: {hnsw_params["efSearch"]}'
+
+    replace_in_file(
+        filename=f'install/vektonn/config/indices/ann-benchmark.index/1.0.yaml',
+        pattern='__VEKTONN_INDEX_PARAMS__',
+        value=vektonn_index_params)
+
+
+def replace_in_file(filename, pattern, value):
+    subprocess.check_call(['sed', '-i.bak', f's/{pattern}/{value}/', filename])
+
+
 def run_worker(cpu, args, queue):
     while not queue.empty():
         definition = queue.get()
         if args.local:
             run(definition, args.dataset, args.count, args.runs, args.batch)
         else:
+            if definition.algorithm.startswith('vektonn'):
+                prepare_vektonn_config(definition)
+
             memory_margin = 500e6  # reserve some extra memory for misc stuff
             mem_limit = int((psutil.virtual_memory().available - memory_margin) / args.parallelism)
             cpu_limit = str(cpu)

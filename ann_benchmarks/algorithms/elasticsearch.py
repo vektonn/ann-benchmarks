@@ -72,11 +72,11 @@ class ElasticsearchScriptScoreQuery(BaseANN):
             for i, vec in enumerate(X):
                 yield { "_op_type": "index", "_index": self.index, "vec": vec.tolist(), 'id': str(i + 1) }
 
-        (_, errors) = bulk(self.es, gen(), chunk_size=500, max_retries=9)
+        (_, errors) = bulk(self.es, gen(), chunk_size=500, max_retries=9, request_timeout=10000000)
         assert len(errors) == 0, errors
 
-        self.es.indices.refresh(self.index)
-        self.es.indices.forcemerge(self.index, max_num_segments=1)
+        self.es.indices.refresh(self.index, request_timeout=10000000)
+        self.es.indices.forcemerge(self.index, max_num_segments=1, request_timeout=10000000)
 
     def query(self, q, n):
         body = dict(

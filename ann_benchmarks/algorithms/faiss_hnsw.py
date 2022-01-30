@@ -1,9 +1,8 @@
 from __future__ import absolute_import
-import os
-import faiss
+
 import numpy as np
-from ann_benchmarks.constants import INDEX_DIR
-from ann_benchmarks.algorithms.base import BaseANN
+
+import faiss
 from ann_benchmarks.algorithms.faiss import Faiss
 
 
@@ -23,7 +22,6 @@ class FaissHNSW(Faiss):
             X = X.astype(np.float32)
 
         self.index.add(X)
-        faiss.omp_set_num_threads(1)
 
     def set_query_arguments(self, ef):
         faiss.cvar.hnsw_stats.reset()
@@ -33,7 +31,7 @@ class FaissHNSW(Faiss):
         return {"dist_comps": faiss.cvar.hnsw_stats.ndis}
 
     def __str__(self):
-        return 'faiss (%s, ef: %d)' % (self.method_param, self.index.hnsw.efSearch)
+        return 'faiss (%s, efSearch: %d)' % (self.method_param, self.index.hnsw.efSearch)
 
     def freeIndex(self):
         del self.p

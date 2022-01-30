@@ -1,0 +1,9 @@
+dataSourceId:
+  name: ann-benchmark.source
+  version: 1.0
+indexAlgorithm:
+  type: FaissIndex.L2
+__VEKTONN_INDEX_PARAMS__
+idAttributes: ["id"]
+shardsById:
+  SingleShard: {}

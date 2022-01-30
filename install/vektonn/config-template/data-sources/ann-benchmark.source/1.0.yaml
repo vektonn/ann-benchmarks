@@ -1,0 +1,5 @@
+vectorDimension: __VEKTONN_VECTOR_DIMENSION__
+vectorsAreSparse: false
+attributeValueTypes:
+  id: Int64
+permanentAttributes: ["id"]

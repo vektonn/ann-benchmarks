@@ -1,0 +1,3 @@
+ann-benchmark.index:
+  1.0:
+    SingleShard: vektonn-index-shard:8082

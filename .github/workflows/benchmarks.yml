@@ -11,9 +11,11 @@ jobs:
         include:
           - library: annoy
             dataset: random-xs-20-angular
-          - library: faiss
+          - library: vektonn
             dataset: random-xs-20-angular
-          - library: kgraph
+          - library: vkt-faiss
+            dataset: random-xs-20-angular
+          - library: faiss
             dataset: random-xs-20-angular
           - library: milvus
             dataset: random-xs-20-angular
@@ -30,8 +32,6 @@ jobs:
           - library: scann
             dataset: random-xs-20-angular
           - library: elasticsearch
-            dataset: random-xs-20-angular
-          - library: elastiknn
             dataset: random-xs-20-angular
           - library: opensearchknn
             dataset: random-xs-20-angular
@@ -52,12 +52,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install -r requirements.txt
-        python3 install.py
+        python3 install.py --build-arg "THIS_REPO_HOST_DIR=$(pwd)"
 
       env:
         LIBRARY: ${{ matrix.library }}
         DATASET: ${{ matrix.dataset }}
-    
+
     - name: Run the benchmark
       run: |
         python3 run.py --docker-tag ann-benchmarks-${LIBRARY} --max-n-algorithms 5 --dataset $DATASET --timeout 300

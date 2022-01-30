@@ -17,6 +17,92 @@ float:
       run-groups:
         base:
           args: [[10, 50, 100, 200, 1000, 2000]]
+    vektonn-bf:
+      docker-tag: ann-benchmarks-vektonn
+      module: ann_benchmarks.algorithms.vektonn
+      constructor: VektonnBruteForce
+      base-args: ["@metric", "@dimension"]
+      run-groups:
+        empty:
+          args: []
+    vektonn-hnsw:
+      docker-tag: ann-benchmarks-vektonn
+      module: ann_benchmarks.algorithms.vektonn
+      constructor: VektonnHnsw
+      base-args: ["@metric", "@dimension"]
+      run-groups:
+        hnsw-8-500-100:
+          args : [{"M": 8, "efConstruction": 500, "efSearch": 100}]
+        hnsw-8-500-200:
+          args : [{"M": 8, "efConstruction": 500, "efSearch": 200}]
+        hnsw-8-500-400:
+          args : [{"M": 8, "efConstruction": 500, "efSearch": 400}]
+        hnsw-8-500-600:
+          args : [{"M": 8, "efConstruction": 500, "efSearch": 600}]
+        hnsw-16-200-100:
+          args : [{"M": 16, "efConstruction": 200, "efSearch": 100}]
+        hnsw-16-200-200:
+          args : [{"M": 16, "efConstruction": 200, "efSearch": 200}]
+        hnsw-16-200-400:
+          args : [{"M": 16, "efConstruction": 200, "efSearch": 400}]
+        hnsw-16-200-600:
+          args : [{"M": 16, "efConstruction": 200, "efSearch": 600}]
+        hnsw-16-500-100:
+          args : [{"M": 16, "efConstruction": 500, "efSearch": 100}]
+        hnsw-16-500-200:
+          args : [{"M": 16, "efConstruction": 500, "efSearch": 200}]
+        hnsw-16-500-400:
+          args : [{"M": 16, "efConstruction": 500, "efSearch": 400}]
+        hnsw-16-500-600:
+          args : [{"M": 16, "efConstruction": 500, "efSearch": 600}]
+        hnsw-24-500-100:
+          args : [{"M": 24, "efConstruction": 500, "efSearch": 100}]
+        hnsw-24-500-200:
+          args : [{"M": 24, "efConstruction": 500, "efSearch": 200}]
+        hnsw-24-500-400:
+          args : [{"M": 24, "efConstruction": 500, "efSearch": 400}]
+        hnsw-24-500-600:
+          args : [{"M": 24, "efConstruction": 500, "efSearch": 600}]
+        hnsw-36-500-100:
+          args : [{"M": 36, "efConstruction": 500, "efSearch": 100}]
+        hnsw-36-500-200:
+          args : [{"M": 36, "efConstruction": 500, "efSearch": 200}]
+        hnsw-36-500-400:
+          args : [{"M": 36, "efConstruction": 500, "efSearch": 400}]
+        hnsw-36-500-600:
+          args : [{"M": 36, "efConstruction": 500, "efSearch": 600}]
+        hnsw-48-500-100:
+          args : [{"M": 48, "efConstruction": 500, "efSearch": 100}]
+        hnsw-48-500-200:
+          args : [{"M": 48, "efConstruction": 500, "efSearch": 200}]
+        hnsw-48-500-400:
+          args : [{"M": 48, "efConstruction": 500, "efSearch": 400}]
+        hnsw-48-500-600:
+          args : [{"M": 48, "efConstruction": 500, "efSearch": 600}]
+        hnsw-64-500-100:
+          args : [{"M": 64, "efConstruction": 500, "efSearch": 100}]
+        hnsw-64-500-200:
+          args : [{"M": 64, "efConstruction": 500, "efSearch": 200}]
+        hnsw-64-500-400:
+          args : [{"M": 64, "efConstruction": 500, "efSearch": 400}]
+        hnsw-64-500-600:
+          args : [{"M": 64, "efConstruction": 500, "efSearch": 600}]
+        hnsw-96-500-100:
+          args : [{"M": 96, "efConstruction": 500, "efSearch": 100}]
+        hnsw-96-500-200:
+          args : [{"M": 96, "efConstruction": 500, "efSearch": 200}]
+        hnsw-96-500-400:
+          args : [{"M": 96, "efConstruction": 500, "efSearch": 400}]
+        hnsw-96-500-600:
+          args : [{"M": 96, "efConstruction": 500, "efSearch": 600}]
+    vkt-faiss-bf:
+      docker-tag: ann-benchmarks-vkt-faiss
+      module: ann_benchmarks.algorithms.faiss_bf
+      constructor: FaissBruteForce
+      base-args: ["@metric"]
+      run-groups:
+        empty:
+          args: []
     faiss-lsh:
       disabled: true
       docker-tag: ann-benchmarks-faiss
@@ -101,48 +187,44 @@ float:
             - {"M": 96,  "efConstruction": 500}
           query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
 
-    hnsw(faiss):
-     docker-tag: ann-benchmarks-faiss
+    vkt-faiss-hnsw:
+     docker-tag: ann-benchmarks-vkt-faiss
      module: ann_benchmarks.algorithms.faiss_hnsw
      constructor: FaissHNSW
      base-args: ["@metric"]
      run-groups:
-       M-4:
-         arg-groups:
-           - {"M": 4,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
        M-8:
          arg-groups:
            - {"M": 8,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
-       M-12:
-         arg-groups:
-           - {"M": 12,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
        M-16:
          arg-groups:
            - {"M": 16,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
+       M-16-200:
+         arg-groups:
+           - {"M": 16,  "efConstruction": 200}
+         query-args: [[100, 200, 400, 600]]
        M-24:
          arg-groups:
            - {"M": 24,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
        M-36:
          arg-groups:
            - {"M": 36,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
        M-48:
          arg-groups:
            - {"M": 48,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
        M-64:
          arg-groups:
            - {"M": 64,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
        M-96:
          arg-groups:
            - {"M": 96,  "efConstruction": 500}
-         query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+         query-args: [[100, 200, 400, 600]]
 
     flann:
      docker-tag: ann-benchmarks-flann
@@ -601,34 +683,30 @@ float:
       constructor: OpenSearchKNN
       base-args: ["@metric", "@dimension"]
       run-groups:
-        M-4:
-          arg-groups:
-            - {"M": 4,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
         M-8:
           arg-groups:
             - {"M": 8,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
-        M-12:
-          arg-groups:
-            - {"M": 12,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-16:
           arg-groups:
             - {"M": 16,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
+        M-16-200:
+          arg-groups:
+            - {"M": 16,  "efConstruction": 200}
+          query-args: [[100, 200, 400, 600]]
         M-24:
           arg-groups:
             - {"M": 24,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-36:
           arg-groups:
             - {"M": 36,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-48:
           arg-groups:
             - {"M": 48,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
     hnsw(vespa):
       docker-tag: ann-benchmarks-vespa
       module: ann_benchmarks.algorithms.vespa
@@ -885,34 +963,30 @@ float:
       constructor: OpenSearchKNN
       base-args: ["@metric", "@dimension"]
       run-groups:
-        M-4:
-          arg-groups:
-            - {"M": 4,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
         M-8:
           arg-groups:
             - {"M": 8,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
-        M-12:
-          arg-groups:
-            - {"M": 12,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-16:
           arg-groups:
             - {"M": 16,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
+        M-16-200:
+          arg-groups:
+            - {"M": 16,  "efConstruction": 200}
+          query-args: [[100, 200, 400, 600]]
         M-24:
           arg-groups:
             - {"M": 24,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-36:
           arg-groups:
             - {"M": 36,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
         M-48:
           arg-groups:
             - {"M": 48,  "efConstruction": 500}
-          query-args: [[10, 20, 40, 80, 120, 200, 400, 600, 800]]
+          query-args: [[100, 200, 400, 600]]
     hnsw(vespa):
       docker-tag: ann-benchmarks-vespa
       module: ann_benchmarks.algorithms.vespa

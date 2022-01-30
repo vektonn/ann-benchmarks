@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import os
+import subprocess
 import threading
 import time
 import traceback
@@ -187,8 +188,7 @@ def run_from_cmdline():
         action='store_true')
     parser.add_argument(
         'build',
-        help='JSON of arguments to pass to the constructor. E.g. ["angular", 100]'
-        )
+        help='JSON of arguments to pass to the constructor. E.g. ["angular", 100]')
     parser.add_argument(
         'queries',
         help='JSON of arguments to pass to the queries. E.g. [100]',
@@ -211,6 +211,12 @@ def run_from_cmdline():
     run(definition, args.dataset, args.count, args.runs, args.batch)
 
 
+def get_number_of_cores_on_host():
+    bash_command = 'lscpu -b -p=Core,Socket | grep -v "^#" | sort -u | wc -l'
+    result = subprocess.check_output(['bash', '-c', bash_command])
+    return result.strip()
+
+
 def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit,
                mem_limit=None):
     cmd = ['--dataset', dataset,
@@ -225,13 +231,28 @@ def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit,
     cmd += [json.dumps(qag) for qag in definition.query_argument_groups]
 
     client = docker.from_env()
+
+    network_name = 'ann-benchmarks'
+    networks = client.networks.list(names=[network_name])
+    if len(networks) == 0:
+        print(f"Creating docker network '{network_name}'")
+        client.networks.create(name=network_name, driver='bridge')
+
     if mem_limit is None:
         mem_limit = psutil.virtual_memory().available
 
+    num_cores_on_host = get_number_of_cores_on_host() if batch else '1'
     container = client.containers.run(
         definition.docker_tag,
         cmd,
+        network=network_name,
+        environment={
+            'DATASET': dataset,
+            'OMP_NUM_THREADS': num_cores_on_host,
+        },
         volumes={
+            '/var/run/docker.sock':
+                {'bind': '/var/run/docker.sock', 'mode': 'rw'},
             os.path.abspath('ann_benchmarks'):
                 {'bind': '/home/app/ann_benchmarks', 'mode': 'ro'},
             os.path.abspath('data'):
@@ -263,13 +284,14 @@ def run_docker(definition, dataset, count, runs, timeout, batch, cpu_limit,
     finally:
         container.remove(force=True)
 
+
 def _handle_container_return_value(return_value, container, logger):
     base_msg = 'Child process for container %s' % (container.short_id)
-    if type(return_value) is dict: # The return value from container.wait changes from int to dict in docker 3.0.0
+    if type(return_value) is dict:  # The return value from container.wait changes from int to dict in docker 3.0.0
         error_msg = return_value['Error']
         exit_code = return_value['StatusCode']
-        msg = base_msg + 'returned exit code %d with message %s' %(exit_code, error_msg)
-    else: 
+        msg = base_msg + 'returned exit code %d with message %s' % (exit_code, error_msg)
+    else:
         exit_code = return_value
         msg = base_msg + 'returned exit code %d' % (exit_code)
 

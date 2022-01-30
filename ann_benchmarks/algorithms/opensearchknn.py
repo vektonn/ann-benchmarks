@@ -25,6 +25,9 @@ class OpenSearchKNN(BaseANN):
         self.es = Elasticsearch(["http://localhost:9200"])
         es_wait()
 
+    def __str__(self):
+        return f'os-{self.param_string} (efSearch: {self.efSearch})'
+
     def fit(self, X):
         body = {
             "settings": {
@@ -62,20 +65,21 @@ class OpenSearchKNN(BaseANN):
             for i, vec in enumerate(tqdm(X)):
                 yield { "_op_type": "index", "_index": self.name, "vec": vec.tolist(), 'id': str(i + 1) }
 
-        (_, errors) = bulk(self.es, gen(), chunk_size=500, max_retries=2, request_timeout=10)
+        (_, errors) = bulk(self.es, gen(), chunk_size=500, max_retries=2, request_timeout=1000000)
         assert len(errors) == 0, errors
           
         print("Force Merge...")
-        self.es.indices.forcemerge(self.name, max_num_segments=1, request_timeout=1000)
+        self.es.indices.forcemerge(self.name, max_num_segments=1, request_timeout=1000000)
                
         print("Refreshing the Index...")
-        self.es.indices.refresh(self.name, request_timeout=1000)
+        self.es.indices.refresh(self.name, request_timeout=1000000)
        
         print("Running Warmup API...")
         res = urlopen(Request("http://localhost:9200/_plugins/_knn/warmup/"+self.name+"?pretty"))
         print(res.read().decode("utf-8"))
 
     def set_query_arguments(self, ef):
+        self.efSearch = ef
         body = {
             "settings": {
                 "index": {"knn.algo_param.ef_search": ef}

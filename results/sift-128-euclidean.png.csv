@@ -1,0 +1,90 @@
+os-m-16-efconstruction-200 (efSearch: 100)	       0.984	         893
+os-m-16-efconstruction-200 (efSearch: 200)	       0.996	         754
+os-m-16-efconstruction-200 (efSearch: 400)	       0.999	         586
+os-m-16-efconstruction-200 (efSearch: 600)	       1.000	         482
+os-m-16-efconstruction-500 (efSearch: 100)	       0.985	         882
+os-m-16-efconstruction-500 (efSearch: 200)	       0.997	         744
+os-m-16-efconstruction-500 (efSearch: 400)	       1.000	         578
+os-m-16-efconstruction-500 (efSearch: 600)	       1.000	         474
+os-m-24-efconstruction-500 (efSearch: 100)	       0.993	         828
+os-m-24-efconstruction-500 (efSearch: 200)	       0.999	         676
+os-m-24-efconstruction-500 (efSearch: 400)	       1.000	         509
+os-m-24-efconstruction-500 (efSearch: 600)	       1.000	         408
+os-m-36-efconstruction-500 (efSearch: 100)	       0.996	         781
+os-m-36-efconstruction-500 (efSearch: 200)	       1.000	         625
+os-m-36-efconstruction-500 (efSearch: 400)	       1.000	         458
+os-m-36-efconstruction-500 (efSearch: 600)	       1.000	         366
+os-m-48-efconstruction-500 (efSearch: 100)	       0.997	         767
+os-m-48-efconstruction-500 (efSearch: 200)	       1.000	         604
+os-m-48-efconstruction-500 (efSearch: 400)	       1.000	         406
+os-m-48-efconstruction-500 (efSearch: 600)	       1.000	         294
+os-m-8-efconstruction-500 (efSearch: 100)	       0.942	         975
+os-m-8-efconstruction-500 (efSearch: 200)	       0.979	         861
+os-m-8-efconstruction-500 (efSearch: 400)	       0.994	         705
+os-m-8-efconstruction-500 (efSearch: 600)	       0.997	         601
+VektonnBruteForce()	       1.000	          29
+VektonnHnsw({'M': 16, 'efConstruction': 200, 'efSearch': 100})	       0.987	         139
+VektonnHnsw({'M': 16, 'efConstruction': 200, 'efSearch': 200})	       0.997	         135
+VektonnHnsw({'M': 16, 'efConstruction': 200, 'efSearch': 400})	       1.000	         123
+VektonnHnsw({'M': 16, 'efConstruction': 200, 'efSearch': 600})	       1.000	         114
+VektonnHnsw({'M': 16, 'efConstruction': 500, 'efSearch': 100})	       0.990	         142
+VektonnHnsw({'M': 16, 'efConstruction': 500, 'efSearch': 200})	       0.998	         133
+VektonnHnsw({'M': 16, 'efConstruction': 500, 'efSearch': 400})	       1.000	         125
+VektonnHnsw({'M': 16, 'efConstruction': 500, 'efSearch': 600})	       1.000	         112
+VektonnHnsw({'M': 24, 'efConstruction': 500, 'efSearch': 100})	       0.994	         139
+VektonnHnsw({'M': 24, 'efConstruction': 500, 'efSearch': 200})	       0.999	         133
+VektonnHnsw({'M': 24, 'efConstruction': 500, 'efSearch': 400})	       1.000	         121
+VektonnHnsw({'M': 24, 'efConstruction': 500, 'efSearch': 600})	       1.000	         107
+VektonnHnsw({'M': 36, 'efConstruction': 500, 'efSearch': 100})	       0.996	         135
+VektonnHnsw({'M': 36, 'efConstruction': 500, 'efSearch': 200})	       1.000	         131
+VektonnHnsw({'M': 36, 'efConstruction': 500, 'efSearch': 400})	       1.000	         117
+VektonnHnsw({'M': 36, 'efConstruction': 500, 'efSearch': 600})	       1.000	         106
+VektonnHnsw({'M': 48, 'efConstruction': 500, 'efSearch': 100})	       0.997	         138
+VektonnHnsw({'M': 48, 'efConstruction': 500, 'efSearch': 200})	       1.000	         124
+VektonnHnsw({'M': 48, 'efConstruction': 500, 'efSearch': 400})	       1.000	         116
+VektonnHnsw({'M': 48, 'efConstruction': 500, 'efSearch': 600})	       1.000	         105
+VektonnHnsw({'M': 64, 'efConstruction': 500, 'efSearch': 100})	       0.997	         137
+VektonnHnsw({'M': 64, 'efConstruction': 500, 'efSearch': 200})	       1.000	         130
+VektonnHnsw({'M': 64, 'efConstruction': 500, 'efSearch': 400})	       1.000	         116
+VektonnHnsw({'M': 64, 'efConstruction': 500, 'efSearch': 600})	       1.000	         105
+VektonnHnsw({'M': 8, 'efConstruction': 500, 'efSearch': 100})	       0.960	         144
+VektonnHnsw({'M': 8, 'efConstruction': 500, 'efSearch': 200})	       0.987	         138
+VektonnHnsw({'M': 8, 'efConstruction': 500, 'efSearch': 400})	       0.996	         129
+VektonnHnsw({'M': 8, 'efConstruction': 500, 'efSearch': 600})	       0.998	         121
+VektonnHnsw({'M': 96, 'efConstruction': 500, 'efSearch': 100})	       0.997	         138
+VektonnHnsw({'M': 96, 'efConstruction': 500, 'efSearch': 200})	       1.000	         128
+VektonnHnsw({'M': 96, 'efConstruction': 500, 'efSearch': 400})	       1.000	         116
+VektonnHnsw({'M': 96, 'efConstruction': 500, 'efSearch': 600})	       1.000	         102
+FaissBruteForce()	       1.000	          36
+faiss ({'M': 16, 'efConstruction': 200}, efSearch: 100)	       0.987	        2727
+faiss ({'M': 16, 'efConstruction': 200}, efSearch: 200)	       0.997	        1546
+faiss ({'M': 16, 'efConstruction': 200}, efSearch: 400)	       1.000	         802
+faiss ({'M': 16, 'efConstruction': 200}, efSearch: 600)	       1.000	         516
+faiss ({'M': 16, 'efConstruction': 500}, efSearch: 100)	       0.990	        2595
+faiss ({'M': 16, 'efConstruction': 500}, efSearch: 200)	       0.998	        1463
+faiss ({'M': 16, 'efConstruction': 500}, efSearch: 400)	       1.000	         760
+faiss ({'M': 16, 'efConstruction': 500}, efSearch: 600)	       1.000	         494
+faiss ({'M': 24, 'efConstruction': 500}, efSearch: 100)	       0.995	        2217
+faiss ({'M': 24, 'efConstruction': 500}, efSearch: 200)	       0.999	        1252
+faiss ({'M': 24, 'efConstruction': 500}, efSearch: 400)	       1.000	         664
+faiss ({'M': 24, 'efConstruction': 500}, efSearch: 600)	       1.000	         438
+faiss ({'M': 36, 'efConstruction': 500}, efSearch: 100)	       0.996	        1940
+faiss ({'M': 36, 'efConstruction': 500}, efSearch: 200)	       0.999	        1111
+faiss ({'M': 36, 'efConstruction': 500}, efSearch: 400)	       1.000	         598
+faiss ({'M': 36, 'efConstruction': 500}, efSearch: 600)	       1.000	         400
+faiss ({'M': 48, 'efConstruction': 500}, efSearch: 100)	       0.997	        1811
+faiss ({'M': 48, 'efConstruction': 500}, efSearch: 200)	       1.000	        1040
+faiss ({'M': 48, 'efConstruction': 500}, efSearch: 400)	       1.000	         565
+faiss ({'M': 48, 'efConstruction': 500}, efSearch: 600)	       1.000	         380
+faiss ({'M': 64, 'efConstruction': 500}, efSearch: 100)	       0.997	        1732
+faiss ({'M': 64, 'efConstruction': 500}, efSearch: 200)	       1.000	        1000
+faiss ({'M': 64, 'efConstruction': 500}, efSearch: 400)	       1.000	         544
+faiss ({'M': 64, 'efConstruction': 500}, efSearch: 600)	       1.000	         368
+faiss ({'M': 8, 'efConstruction': 500}, efSearch: 100)	       0.959	        3697
+faiss ({'M': 8, 'efConstruction': 500}, efSearch: 200)	       0.986	        2065
+faiss ({'M': 8, 'efConstruction': 500}, efSearch: 400)	       0.996	        1036
+faiss ({'M': 8, 'efConstruction': 500}, efSearch: 600)	       0.998	         646
+faiss ({'M': 96, 'efConstruction': 500}, efSearch: 100)	       0.997	        1656
+faiss ({'M': 96, 'efConstruction': 500}, efSearch: 200)	       1.000	         959
+faiss ({'M': 96, 'efConstruction': 500}, efSearch: 400)	       1.000	         528
+faiss ({'M': 96, 'efConstruction': 500}, efSearch: 600)	       1.000	         358
